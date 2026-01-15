@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+import 'screens/dashboard.dart';
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const TrainMonitorApp());
+}
+
+class TrainMonitorApp extends StatelessWidget {
+  const TrainMonitorApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Train Speed Monitor',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.blue,
+        useMaterial3: true,
+        fontFamily: 'Inter',
+      ),
+      home: const Dashboard(),
+    );
+  }
+}

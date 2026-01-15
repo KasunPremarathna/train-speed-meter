@@ -1,0 +1,322 @@
+[
+  {
+    "name": "Colombo Fort",
+    "lat": 6.9344,
+    "lng": 79.8501
+  },
+  {
+    "name": "Maradana",
+    "lat": 6.9272,
+    "lng": 79.8644
+  },
+  {
+    "name": "Dematagoda",
+    "lat": 6.9283,
+    "lng": 79.8783
+  },
+  {
+    "name": "Kelaniya",
+    "lat": 6.9531,
+    "lng": 79.9125
+  },
+  {
+    "name": "Ragama",
+    "lat": 7.0286,
+    "lng": 79.9214
+  },
+  {
+    "name": "Gampaha",
+    "lat": 7.0910,
+    "lng": 79.9984
+  },
+  {
+    "name": "Veyangoda",
+    "lat": 7.1444,
+    "lng": 80.0583
+  },
+  {
+    "name": "Mirigama",
+    "lat": 7.2361,
+    "lng": 80.1322
+  },
+  {
+    "name": "Polgahawela",
+    "lat": 7.3323,
+    "lng": 80.2986
+  },
+  {
+    "name": "Rambukkana",
+    "lat": 7.3236,
+    "lng": 80.3956
+  },
+  {
+    "name": "Kadugannawa",
+    "lat": 7.2536,
+    "lng": 80.5186
+  },
+  {
+    "name": "Peradeniya Junction",
+    "lat": 7.2686,
+    "lng": 80.5925
+  },
+  {
+    "name": "Kandy",
+    "lat": 7.2906,
+    "lng": 80.6337
+  },
+  {
+    "name": "Gampola",
+    "lat": 7.1633,
+    "lng": 80.5708
+  },
+  {
+    "name": "Nawalapitiya",
+    "lat": 7.0526,
+    "lng": 80.5348
+  },
+  {
+    "name": "Hatton",
+    "lat": 6.8844,
+    "lng": 80.5989
+  },
+  {
+    "name": "Kotagala",
+    "lat": 6.9367,
+    "lng": 80.6406
+  },
+  {
+    "name": "Talawakelle",
+    "lat": 6.9381,
+    "lng": 80.6586
+  },
+  {
+    "name": "Nanu Oya",
+    "lat": 6.9458,
+    "lng": 80.7333
+  },
+  {
+    "name": "Ambewela",
+    "lat": 6.8864,
+    "lng": 80.7814
+  },
+  {
+    "name": "Pattipola",
+    "lat": 6.8542,
+    "lng": 80.8256
+  },
+  {
+    "name": "Ohiya",
+    "lat": 6.8206,
+    "lng": 80.8464
+  },
+  {
+    "name": "Idalgashinna",
+    "lat": 6.7825,
+    "lng": 80.8953
+  },
+  {
+    "name": "Haputale",
+    "lat": 6.7667,
+    "lng": 80.9575
+  },
+  {
+    "name": "Diyatalawa",
+    "lat": 6.8172,
+    "lng": 80.9936
+  },
+  {
+    "name": "Bandarawela",
+    "lat": 6.8306,
+    "lng": 80.9997
+  },
+  {
+    "name": "Ella",
+    "lat": 6.8732,
+    "lng": 81.0456
+  },
+  {
+    "name": "Demodara",
+    "lat": 6.9103,
+    "lng": 81.0667
+  },
+  {
+    "name": "Badulla",
+    "lat": 6.9934,
+    "lng": 81.0551
+  },
+  {
+    "name": "Secretariat Halt",
+    "lat": 6.9244,
+    "lng": 79.8456
+  },
+  {
+    "name": "Kompannavidiya",
+    "lat": 6.9189,
+    "lng": 79.8492
+  },
+  {
+    "name": "Kollupitiya",
+    "lat": 6.9067,
+    "lng": 79.8494
+  },
+  {
+    "name": "Bambalapitiya",
+    "lat": 6.8864,
+    "lng": 79.8533
+  },
+  {
+    "name": "Wellawatta",
+    "lat": 6.8683,
+    "lng": 79.8569
+  },
+  {
+    "name": "Dehiwala",
+    "lat": 6.8519,
+    "lng": 79.8603
+  },
+  {
+    "name": "Mount Lavinia",
+    "lat": 6.8333,
+    "lng": 79.8667
+  },
+  {
+    "name": "Ratmalana",
+    "lat": 6.8117,
+    "lng": 79.8739
+  },
+  {
+    "name": "Moratuwa",
+    "lat": 6.7728,
+    "lng": 79.8825
+  },
+  {
+    "name": "Panadura",
+    "lat": 6.7117,
+    "lng": 79.9081
+  },
+  {
+    "name": "Wadduwa",
+    "lat": 6.6667,
+    "lng": 79.9333
+  },
+  {
+    "name": "Kalutara North",
+    "lat": 6.5986,
+    "lng": 79.9575
+  },
+  {
+    "name": "Kalutara South",
+    "lat": 6.5833,
+    "lng": 79.9583
+  },
+  {
+    "name": "Aluthgama",
+    "lat": 6.4383,
+    "lng": 79.9986
+  },
+  {
+    "name": "Bentota",
+    "lat": 6.4217,
+    "lng": 80.0039
+  },
+  {
+    "name": "Balapitiya",
+    "lat": 6.2758,
+    "lng": 80.0439
+  },
+  {
+    "name": "Ambalangoda",
+    "lat": 6.2361,
+    "lng": 80.0572
+  },
+  {
+    "name": "Hikkaduwa",
+    "lat": 6.1389,
+    "lng": 80.1039
+  },
+  {
+    "name": "Galle",
+    "lat": 6.0333,
+    "lng": 80.2167
+  },
+  {
+    "name": "Weligama",
+    "lat": 5.9733,
+    "lng": 80.4350
+  },
+  {
+    "name": "Matara",
+    "lat": 5.9483,
+    "lng": 80.5483
+  },
+  {
+    "name": "Beliatta",
+    "lat": 5.9867,
+    "lng": 80.6867
+  },
+  {
+    "name": "Kurunegala",
+    "lat": 7.4917,
+    "lng": 80.3592
+  },
+  {
+    "name": "Maho Junction",
+    "lat": 7.8206,
+    "lng": 80.2683
+  },
+  {
+    "name": "Galgamuwa",
+    "lat": 8.0772,
+    "lng": 80.2783
+  },
+  {
+    "name": "Anuradhapura",
+    "lat": 8.3514,
+    "lng": 80.3956
+  },
+  {
+    "name": "Vavuniya",
+    "lat": 8.7514,
+    "lng": 80.4972
+  },
+  {
+    "name": "Kilinochchi",
+    "lat": 9.3906,
+    "lng": 80.4072
+  },
+  {
+    "name": "Jaffna",
+    "lat": 9.6647,
+    "lng": 80.0161
+  },
+  {
+    "name": "Kankesanthurai",
+    "lat": 9.8111,
+    "lng": 80.0444
+  },
+  {
+    "name": "Medawachchiya",
+    "lat": 8.5367,
+    "lng": 80.4947
+  },
+  {
+    "name": "Polonnaruwa",
+    "lat": 7.9422,
+    "lng": 81.0119
+  },
+  {
+    "name": "Batticaloa",
+    "lat": 7.7125,
+    "lng": 81.6961
+  },
+  {
+    "name": "Trincomalee",
+    "lat": 8.5750,
+    "lng": 81.2333
+  },
+  {
+    "name": "Habarana",
+    "lat": 8.0494,
+    "lng": 80.7517
+  }
+]
