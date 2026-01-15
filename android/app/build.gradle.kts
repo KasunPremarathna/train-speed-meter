@@ -21,7 +21,7 @@ android {
     defaultConfig {
         applicationId = "com.example.sl_train_monitor"
         // Reverted to default Flutter handling.
-        minSdk = flutter.minSdkVersion
+        minSdk = 24
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

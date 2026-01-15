@@ -2,321 +2,547 @@
   {
     "name": "Colombo Fort",
     "lat": 6.9344,
-    "lng": 79.8501
+    "lng": 79.8501,
+    "type": "Major Junction",
+    "line": "Main Line"
   },
   {
     "name": "Maradana",
     "lat": 6.9272,
-    "lng": 79.8644
+    "lng": 79.8644,
+    "type": "Major Junction",
+    "line": "Main Line"
   },
   {
     "name": "Dematagoda",
     "lat": 6.9283,
-    "lng": 79.8783
+    "lng": 79.8783,
+    "type": "Sub-Station",
+    "line": "Main Line"
   },
   {
     "name": "Kelaniya",
     "lat": 6.9531,
-    "lng": 79.9125
+    "lng": 79.9125,
+    "type": "Sub-Station",
+    "line": "Main Line"
   },
   {
-    "name": "Ragama",
+    "name": "Wanawasala",
+    "lat": 6.9631,
+    "lng": 79.9150,
+    "type": "Halt",
+    "line": "Main Line"
+  },
+  {
+    "name": "Hunupitiya",
+    "lat": 6.9744,
+    "lng": 79.9161,
+    "type": "Sub-Station",
+    "line": "Main Line"
+  },
+  {
+    "name": "Enderamulla",
+    "lat": 6.9950,
+    "lng": 79.9189,
+    "type": "Halt",
+    "line": "Main Line"
+  },
+  {
+    "name": "Horape",
+    "lat": 7.0122,
+    "lng": 79.9201,
+    "type": "Halt",
+    "line": "Main Line"
+  },
+  {
+    "name": "Ragama Junction",
     "lat": 7.0286,
-    "lng": 79.9214
+    "lng": 79.9214,
+    "type": "Major Junction",
+    "line": "Main Line"
+  },
+  {
+    "name": "Walpola",
+    "lat": 7.0450,
+    "lng": 79.9350,
+    "type": "Halt",
+    "line": "Main Line"
+  },
+  {
+    "name": "Batuwaththa",
+    "lat": 7.0583,
+    "lng": 79.9500,
+    "type": "Halt",
+    "line": "Main Line"
+  },
+  {
+    "name": "Bulugahagoda",
+    "lat": 7.0783,
+    "lng": 79.9717,
+    "type": "Halt",
+    "line": "Main Line"
+  },
+  {
+    "name": "Ganemulla",
+    "lat": 7.0700,
+    "lng": 79.9667,
+    "type": "Major",
+    "line": "Main Line"
+  },
+  {
+    "name": "Yagoda",
+    "lat": 7.0983,
+    "lng": 80.0167,
+    "type": "Halt",
+    "line": "Main Line"
   },
   {
     "name": "Gampaha",
     "lat": 7.0910,
-    "lng": 79.9984
+    "lng": 79.9984,
+    "type": "Major",
+    "line": "Main Line"
+  },
+  {
+    "name": "Daraluwa",
+    "lat": 7.1117,
+    "lng": 80.0333,
+    "type": "Halt",
+    "line": "Main Line"
+  },
+  {
+    "name": "Bemmulla",
+    "lat": 7.1233,
+    "lng": 80.0450,
+    "type": "Sub-Station",
+    "line": "Main Line"
+  },
+  {
+    "name": "Magalegoda",
+    "lat": 7.1567,
+    "lng": 80.0717,
+    "type": "Halt",
+    "line": "Main Line"
+  },
+  {
+    "name": "Heendeniya Pattiyagoda",
+    "lat": 7.1683,
+    "lng": 80.0817,
+    "type": "Halt",
+    "line": "Main Line"
   },
   {
     "name": "Veyangoda",
     "lat": 7.1444,
-    "lng": 80.0583
+    "lng": 80.0583,
+    "type": "Major",
+    "line": "Main Line"
   },
   {
-    "name": "Mirigama",
-    "lat": 7.2361,
-    "lng": 80.1322
-  },
-  {
-    "name": "Polgahawela",
+    "name": "Polgahawela Junction",
     "lat": 7.3323,
-    "lng": 80.2986
+    "lng": 80.2986,
+    "type": "Major Junction",
+    "line": "Main Line"
   },
   {
-    "name": "Rambukkana",
-    "lat": 7.3236,
-    "lng": 80.3956
+    "name": "Ihala Kotte",
+    "lat": 7.2917,
+    "lng": 80.4667,
+    "type": "Sub-Station",
+    "line": "Main Line"
   },
   {
     "name": "Kadugannawa",
     "lat": 7.2536,
-    "lng": 80.5186
+    "lng": 80.5186,
+    "type": "Major",
+    "line": "Main Line"
   },
   {
     "name": "Peradeniya Junction",
     "lat": 7.2686,
-    "lng": 80.5925
-  },
-  {
-    "name": "Kandy",
-    "lat": 7.2906,
-    "lng": 80.6337
-  },
-  {
-    "name": "Gampola",
-    "lat": 7.1633,
-    "lng": 80.5708
-  },
-  {
-    "name": "Nawalapitiya",
-    "lat": 7.0526,
-    "lng": 80.5348
-  },
-  {
-    "name": "Hatton",
-    "lat": 6.8844,
-    "lng": 80.5989
-  },
-  {
-    "name": "Kotagala",
-    "lat": 6.9367,
-    "lng": 80.6406
-  },
-  {
-    "name": "Talawakelle",
-    "lat": 6.9381,
-    "lng": 80.6586
+    "lng": 80.5925,
+    "type": "Major Junction",
+    "line": "Main Line"
   },
   {
     "name": "Nanu Oya",
     "lat": 6.9458,
-    "lng": 80.7333
-  },
-  {
-    "name": "Ambewela",
-    "lat": 6.8864,
-    "lng": 80.7814
+    "lng": 80.7333,
+    "type": "Major",
+    "line": "Main Line"
   },
   {
     "name": "Pattipola",
     "lat": 6.8542,
-    "lng": 80.8256
-  },
-  {
-    "name": "Ohiya",
-    "lat": 6.8206,
-    "lng": 80.8464
-  },
-  {
-    "name": "Idalgashinna",
-    "lat": 6.7825,
-    "lng": 80.8953
-  },
-  {
-    "name": "Haputale",
-    "lat": 6.7667,
-    "lng": 80.9575
-  },
-  {
-    "name": "Diyatalawa",
-    "lat": 6.8172,
-    "lng": 80.9936
-  },
-  {
-    "name": "Bandarawela",
-    "lat": 6.8306,
-    "lng": 80.9997
+    "lng": 80.8256,
+    "type": "Halt (Highest)",
+    "line": "Main Line"
   },
   {
     "name": "Ella",
     "lat": 6.8732,
-    "lng": 81.0456
-  },
-  {
-    "name": "Demodara",
-    "lat": 6.9103,
-    "lng": 81.0667
+    "lng": 81.0456,
+    "type": "Major",
+    "line": "Main Line"
   },
   {
     "name": "Badulla",
     "lat": 6.9934,
-    "lng": 81.0551
+    "lng": 81.0551,
+    "type": "Terminal",
+    "line": "Main Line"
   },
   {
     "name": "Secretariat Halt",
     "lat": 6.9244,
-    "lng": 79.8456
+    "lng": 79.8456,
+    "type": "Halt",
+    "line": "Coastal Line"
   },
   {
     "name": "Kompannavidiya",
     "lat": 6.9189,
-    "lng": 79.8492
+    "lng": 79.8492,
+    "type": "Sub-Station",
+    "line": "Coastal Line"
   },
   {
     "name": "Kollupitiya",
     "lat": 6.9067,
-    "lng": 79.8494
+    "lng": 79.8494,
+    "type": "Sub-Station",
+    "line": "Coastal Line"
   },
   {
     "name": "Bambalapitiya",
     "lat": 6.8864,
-    "lng": 79.8533
+    "lng": 79.8533,
+    "type": "Sub-Station",
+    "line": "Coastal Line"
   },
   {
     "name": "Wellawatta",
     "lat": 6.8683,
-    "lng": 79.8569
+    "lng": 79.8569,
+    "type": "Major",
+    "line": "Coastal Line"
   },
   {
-    "name": "Dehiwala",
-    "lat": 6.8519,
-    "lng": 79.8603
+    "name": "Angulana",
+    "lat": 6.7917,
+    "lng": 79.8767,
+    "type": "Halt",
+    "line": "Coastal Line"
   },
   {
-    "name": "Mount Lavinia",
-    "lat": 6.8333,
-    "lng": 79.8667
-  },
-  {
-    "name": "Ratmalana",
-    "lat": 6.8117,
-    "lng": 79.8739
+    "name": "Lunawa",
+    "lat": 6.7825,
+    "lng": 79.8800,
+    "type": "Halt",
+    "line": "Coastal Line"
   },
   {
     "name": "Moratuwa",
     "lat": 6.7728,
-    "lng": 79.8825
+    "lng": 79.8825,
+    "type": "Major",
+    "line": "Coastal Line"
+  },
+  {
+    "name": "Koralawella",
+    "lat": 6.7583,
+    "lng": 79.8917,
+    "type": "Halt",
+    "line": "Coastal Line"
+  },
+  {
+    "name": "Egoda Uyana",
+    "lat": 6.7350,
+    "lng": 79.8983,
+    "type": "Halt",
+    "line": "Coastal Line"
   },
   {
     "name": "Panadura",
     "lat": 6.7117,
-    "lng": 79.9081
+    "lng": 79.9081,
+    "type": "Major",
+    "line": "Coastal Line"
+  },
+  {
+    "name": "Pinwatta",
+    "lat": 6.6850,
+    "lng": 79.9183,
+    "type": "Halt",
+    "line": "Coastal Line"
   },
   {
     "name": "Wadduwa",
     "lat": 6.6667,
-    "lng": 79.9333
+    "lng": 79.9333,
+    "type": "Major",
+    "line": "Coastal Line"
   },
   {
     "name": "Kalutara North",
     "lat": 6.5986,
-    "lng": 79.9575
+    "lng": 79.9575,
+    "type": "Sub-Station",
+    "line": "Coastal Line"
   },
   {
     "name": "Kalutara South",
     "lat": 6.5833,
-    "lng": 79.9583
+    "lng": 79.9583,
+    "type": "Major",
+    "line": "Coastal Line"
   },
   {
-    "name": "Aluthgama",
-    "lat": 6.4383,
-    "lng": 79.9986
-  },
-  {
-    "name": "Bentota",
-    "lat": 6.4217,
-    "lng": 80.0039
-  },
-  {
-    "name": "Balapitiya",
-    "lat": 6.2758,
-    "lng": 80.0439
-  },
-  {
-    "name": "Ambalangoda",
-    "lat": 6.2361,
-    "lng": 80.0572
-  },
-  {
-    "name": "Hikkaduwa",
-    "lat": 6.1389,
-    "lng": 80.1039
+    "name": "Katukurunda",
+    "lat": 6.5683,
+    "lng": 79.9650,
+    "type": "Halt",
+    "line": "Coastal Line"
   },
   {
     "name": "Galle",
     "lat": 6.0333,
-    "lng": 80.2167
-  },
-  {
-    "name": "Weligama",
-    "lat": 5.9733,
-    "lng": 80.4350
-  },
-  {
-    "name": "Matara",
-    "lat": 5.9483,
-    "lng": 80.5483
+    "lng": 80.2167,
+    "type": "Major Junction",
+    "line": "Coastal Line"
   },
   {
     "name": "Beliatta",
     "lat": 5.9867,
-    "lng": 80.6867
+    "lng": 80.6867,
+    "type": "Terminal",
+    "line": "Coastal Line"
+  },
+  {
+    "name": "Potuhera",
+    "lat": 7.4244,
+    "lng": 80.3347,
+    "type": "Sub-Station",
+    "line": "Northern Line"
   },
   {
     "name": "Kurunegala",
     "lat": 7.4917,
-    "lng": 80.3592
+    "lng": 80.3592,
+    "type": "Major",
+    "line": "Northern Line"
+  },
+  {
+    "name": "Wellawa",
+    "lat": 7.5533,
+    "lng": 80.3917,
+    "type": "Sub-Station",
+    "line": "Northern Line"
+  },
+  {
+    "name": "Ganewatte",
+    "lat": 7.6417,
+    "lng": 80.4033,
+    "type": "Sub-Station",
+    "line": "Northern Line"
+  },
+  {
+    "name": "Yapahuwa",
+    "lat": 7.8083,
+    "lng": 80.2633,
+    "type": "Halt",
+    "line": "Northern Line"
   },
   {
     "name": "Maho Junction",
     "lat": 7.8206,
-    "lng": 80.2683
-  },
-  {
-    "name": "Galgamuwa",
-    "lat": 8.0772,
-    "lng": 80.2783
+    "lng": 80.2683,
+    "type": "Major Junction",
+    "line": "Northern Line"
   },
   {
     "name": "Anuradhapura",
     "lat": 8.3514,
-    "lng": 80.3956
-  },
-  {
-    "name": "Vavuniya",
-    "lat": 8.7514,
-    "lng": 80.4972
-  },
-  {
-    "name": "Kilinochchi",
-    "lat": 9.3906,
-    "lng": 80.4072
-  },
-  {
-    "name": "Jaffna",
-    "lat": 9.6647,
-    "lng": 80.0161
-  },
-  {
-    "name": "Kankesanthurai",
-    "lat": 9.8111,
-    "lng": 80.0444
+    "lng": 80.3956,
+    "type": "Major",
+    "line": "Northern Line"
   },
   {
     "name": "Medawachchiya",
     "lat": 8.5367,
-    "lng": 80.4947
+    "lng": 80.4947,
+    "type": "Major Junction",
+    "line": "Northern Line"
+  },
+  {
+    "name": "Jaffna",
+    "lat": 9.6647,
+    "lng": 80.0161,
+    "type": "Major",
+    "line": "Northern Line"
+  },
+  {
+    "name": "Kankesanthurai",
+    "lat": 9.8111,
+    "lng": 80.0444,
+    "type": "Terminal",
+    "line": "Northern Line"
+  },
+  {
+    "name": "Baseline Road",
+    "lat": 6.9244,
+    "lng": 79.8783,
+    "type": "Sub-Station",
+    "line": "Kelani Valley Line"
+  },
+  {
+    "name": "Cotta Road",
+    "lat": 6.9150,
+    "lng": 79.8850,
+    "type": "Sub-Station",
+    "line": "Kelani Valley Line"
+  },
+  {
+    "name": "Narahenpita",
+    "lat": 6.8917,
+    "lng": 79.8883,
+    "type": "Sub-Station",
+    "line": "Kelani Valley Line"
+  },
+  {
+    "name": "Nugegoda",
+    "lat": 6.8750,
+    "lng": 79.8944,
+    "type": "Major",
+    "line": "Kelani Valley Line"
+  },
+  {
+    "name": "Homagama",
+    "lat": 6.8430,
+    "lng": 80.0136,
+    "type": "Major",
+    "line": "Kelani Valley Line"
+  },
+  {
+    "name": "Avissawella",
+    "lat": 6.9544,
+    "lng": 80.2097,
+    "type": "Terminal",
+    "line": "Kelani Valley Line"
+  },
+  {
+    "name": "Kandana",
+    "lat": 7.0483,
+    "lng": 79.8967,
+    "type": "Sub-Station",
+    "line": "Puttalam Line"
+  },
+  {
+    "name": "Ja-Ela",
+    "lat": 7.0833,
+    "lng": 79.8917,
+    "type": "Major",
+    "line": "Puttalam Line"
+  },
+  {
+    "name": "Katunayake",
+    "lat": 7.1667,
+    "lng": 79.8833,
+    "type": "Major",
+    "line": "Puttalam Line"
+  },
+  {
+    "name": "Negombo",
+    "lat": 7.2008,
+    "lng": 79.8737,
+    "type": "Major",
+    "line": "Puttalam Line"
+  },
+  {
+    "name": "Puttalam",
+    "lat": 8.1093,
+    "lng": 79.8284,
+    "type": "Terminal",
+    "line": "Puttalam Line"
+  },
+  {
+    "name": "Gal Oya Junction",
+    "lat": 8.1183,
+    "lng": 80.9317,
+    "type": "Major Junction",
+    "line": "Eastern Lines"
   },
   {
     "name": "Polonnaruwa",
     "lat": 7.9422,
-    "lng": 81.0119
+    "lng": 81.0119,
+    "type": "Major",
+    "line": "Eastern Lines"
   },
   {
     "name": "Batticaloa",
     "lat": 7.7125,
-    "lng": 81.6961
+    "lng": 81.6961,
+    "type": "Terminal",
+    "line": "Eastern Lines"
   },
   {
     "name": "Trincomalee",
-    "lat": 8.5750,
-    "lng": 81.2333
+    "lat": 8.5844,
+    "lng": 81.2262,
+    "type": "Terminal",
+    "line": "Eastern Lines"
   },
   {
-    "name": "Habarana",
-    "lat": 8.0494,
-    "lng": 80.7517
+    "name": "Madhu Road",
+    "lat": 8.8521,
+    "lng": 80.2039,
+    "type": "Major",
+    "line": "Mannar Line"
+  },
+  {
+    "name": "Mannar",
+    "lat": 8.9810,
+    "lng": 79.9044,
+    "type": "Major",
+    "line": "Mannar Line"
+  },
+  {
+    "name": "Talaimannar Pier",
+    "lat": 9.1067,
+    "lng": 79.7214,
+    "type": "Terminal",
+    "line": "Mannar Line"
+  },
+  {
+    "name": "Kandy",
+    "lat": 7.2906,
+    "lng": 80.6337,
+    "type": "Major",
+    "line": "Matale Line"
+  },
+  {
+    "name": "Matale",
+    "lat": 7.4675,
+    "lng": 80.6234,
+    "type": "Terminal",
+    "line": "Matale Line"
+  },
+  {
+    "name": "Mihintale Junction",
+    "lat": 8.3483,
+    "lng": 80.4183,
+    "type": "Halt",
+    "line": "Mihintale Line"
+  },
+  {
+    "name": "Mihintale",
+    "lat": 8.3517,
+    "lng": 80.5083,
+    "type": "Terminal",
+    "line": "Mihintale Line"
   }
 ]

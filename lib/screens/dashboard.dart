@@ -10,7 +10,7 @@ import '../models/station.dart';
 import '../services/gps_service.dart';
 import '../services/sensor_service.dart';
 import '../services/gnss_service.dart';
-import './about_screen.dart';
+import './full_map_screen.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -37,6 +37,7 @@ class _DashboardState extends State<Dashboard> {
   final List<FlSpot> _vibrationData = [];
   double _vibrationMagnitude = 0.0;
   int _timerCount = 0;
+  bool _autoCenter = true;
 
   StreamSubscription? _posSub;
   StreamSubscription? _vibSub;
@@ -74,10 +75,28 @@ class _DashboardState extends State<Dashboard> {
     _posSub = _gpsService.positionStream.listen((pos) {
       setState(() {
         _currentPosition = pos;
-        _speed = pos.speed * 3.6; // m/s to km/h
+
+        // Convert m/s to km/h
+        double rawSpeed = pos.speed * 3.6;
+
+        // Apply speed threshold to filter GPS drift
+        // If speed is below 0.5 km/h or accuracy is poor (>5m), treat as stationary
+        if (rawSpeed < 0.5 || pos.accuracy > 5) {
+          _speed = 0.0;
+        } else {
+          _speed = rawSpeed;
+        }
+
         if (_speed > _maxSpeed) _maxSpeed = _speed;
         _accuracy = pos.accuracy;
         _detectStations(pos);
+
+        if (_autoCenter) {
+          _mapController.move(
+            LatLng(pos.latitude, pos.longitude),
+            _mapController.camera.zoom,
+          );
+        }
       });
     });
 
@@ -182,13 +201,6 @@ class _DashboardState extends State<Dashboard> {
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.info_outline, color: Colors.blueAccent),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const AboutScreen()),
-            ),
-          ),
-          IconButton(
             icon: const Icon(Icons.refresh, color: Colors.blueAccent),
             onPressed: () {
               setState(() {
@@ -205,28 +217,33 @@ class _DashboardState extends State<Dashboard> {
         ],
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: Column(
-            children: [
-              _buildTopStatsBar(),
-              const SizedBox(height: 12),
-              _buildSpeedometer(),
-              const SizedBox(height: 12),
-              Expanded(flex: 3, child: _buildVibrationGraph()),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(child: _buildGnssPanel()),
-                  const SizedBox(width: 12),
-                  Expanded(child: _buildAccuracyPanel()),
-                ],
-              ),
-              const SizedBox(height: 12),
-              _buildStationPanel(),
-              const SizedBox(height: 12),
-              Expanded(flex: 4, child: _buildMap()),
-            ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
+            child: Column(
+              children: [
+                _buildTopStatsBar(),
+                const SizedBox(height: 12),
+                _buildSpeedometer(),
+                const SizedBox(height: 12),
+                SizedBox(height: 200, child: _buildVibrationGraph()),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(child: _buildGnssPanel()),
+                    const SizedBox(width: 12),
+                    Expanded(child: _buildAccuracyPanel()),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                _buildStationPanel(),
+                const SizedBox(height: 12),
+                SizedBox(height: 400, child: _buildMap()),
+              ],
+            ),
           ),
         ),
       ),
@@ -544,52 +561,149 @@ class _DashboardState extends State<Dashboard> {
         ? LatLng(_currentPosition!.latitude, _currentPosition!.longitude)
         : const LatLng(6.9344, 79.8501);
 
-    return Container(
-      width: double.infinity,
-      clipBehavior: Clip.hardEdge,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-      child: FlutterMap(
-        mapController: _mapController,
-        options: MapOptions(initialCenter: center, initialZoom: 13.0),
-        children: [
-          TileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'com.example.sl_train_monitor',
-          ),
-          PolylineLayer(
-            polylines: [
-              Polyline(
-                points: _stations.map((s) => LatLng(s.lat, s.lng)).toList(),
-                color: Colors.blueAccent,
-                strokeWidth: 4,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const FullMapScreen()),
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+        child: Stack(
+          children: [
+            FlutterMap(
+              mapController: _mapController,
+              options: MapOptions(
+                initialCenter: center,
+                initialZoom: 13.0,
+                onPositionChanged: (position, hasGesture) {
+                  if (hasGesture) {
+                    setState(() => _autoCenter = false);
+                  }
+                },
               ),
-            ],
-          ),
-          MarkerLayer(
-            markers: [
-              if (_currentPosition != null)
-                Marker(
-                  point: center,
-                  width: 40,
-                  height: 40,
-                  child: const Icon(Icons.train, color: Colors.blue, size: 40),
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.example.sl_train_monitor',
                 ),
-              ..._stations.map(
-                (s) => Marker(
-                  point: LatLng(s.lat, s.lng),
-                  width: 8,
-                  height: 8,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
+                PolylineLayer(
+                  polylines: [
+                    Polyline(
+                      points: _stations
+                          .map((s) => LatLng(s.lat, s.lng))
+                          .toList(),
+                      color: Colors.blueAccent,
+                      strokeWidth: 4,
+                    ),
+                  ],
+                ),
+                MarkerLayer(
+                  markers: [
+                    if (_currentPosition != null)
+                      Marker(
+                        point: center,
+                        width: 48,
+                        height: 48,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.blueAccent,
+                              width: 2,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.3),
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.train,
+                            color: Colors.blueAccent,
+                            size: 28,
+                          ),
+                        ),
+                      ),
+                    ..._stations.map(
+                      (s) => Marker(
+                        point: LatLng(s.lat, s.lng),
+                        width: 8,
+                        height: 8,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Positioned(
+              bottom: 16,
+              right: 16,
+              child: Column(
+                children: [
+                  FloatingActionButton.small(
+                    heroTag: 'zoom_in',
+                    backgroundColor: const Color(0xFF1E1E1E),
+                    onPressed: () {
+                      final zoom = _mapController.camera.zoom;
+                      _mapController.move(
+                        _mapController.camera.center,
+                        zoom + 1,
+                      );
+                    },
+                    child: const Icon(Icons.add, color: Colors.white),
+                  ),
+                  const SizedBox(height: 8),
+                  FloatingActionButton.small(
+                    heroTag: 'zoom_out',
+                    backgroundColor: const Color(0xFF1E1E1E),
+                    onPressed: () {
+                      final zoom = _mapController.camera.zoom;
+                      _mapController.move(
+                        _mapController.camera.center,
+                        zoom - 1,
+                      );
+                    },
+                    child: const Icon(Icons.remove, color: Colors.white),
+                  ),
+                  const SizedBox(height: 16),
+                  FloatingActionButton(
+                    heroTag: 'my_location',
+                    backgroundColor: Colors.blueAccent,
+                    onPressed: () {
+                      if (_currentPosition != null) {
+                        setState(() => _autoCenter = true);
+                        _mapController.move(
+                          LatLng(
+                            _currentPosition!.latitude,
+                            _currentPosition!.longitude,
+                          ),
+                          15.0,
+                        );
+                      }
+                    },
+                    child: Icon(
+                      Icons.my_location,
+                      color: _autoCenter ? Colors.white : Colors.white70,
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -613,7 +727,7 @@ class _DashboardState extends State<Dashboard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'LIVE VIBRATION',
+            'TRAIN LIVE VIBRATION',
             style: TextStyle(
               color: Colors.grey,
               fontSize: 8,

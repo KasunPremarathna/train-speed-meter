@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/dashboard.dart';
+import 'main_navigation.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +20,7 @@ class TrainMonitorApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'Inter',
       ),
-      home: const Dashboard(),
+      home: const MainNavigation(),
     );
   }
 }
