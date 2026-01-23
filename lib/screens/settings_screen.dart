@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../services/settings_service.dart';
+import '../services/ad_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -8,10 +10,37 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _autoFollowLocation = true;
-  bool _showStationMarkers = true;
-  bool _showRailwayLines = true;
-  double _mapZoomLevel = 13.0;
+  final SettingsService _settings = SettingsService();
+
+  late bool _autoFollow;
+  late bool _showStations;
+  late bool _showLines;
+  late double _zoomLevel;
+
+  @override
+  void initState() {
+    super.initState();
+    _autoFollow = _settings.autoFollowLocation;
+    _showStations = _settings.showStationMarkers;
+    _showLines = _settings.showRailwayLines;
+    _zoomLevel = _settings.mapZoomLevel;
+  }
+
+  Future<void> _saveAllSettings() async {
+    await _settings.setAutoFollow(_autoFollow);
+    await _settings.setShowStations(_showStations);
+    await _settings.setShowRailwayLines(_showLines);
+    await _settings.setZoomLevel(_zoomLevel);
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Settings saved successfully!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +58,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          TextButton.icon(
+            onPressed: _saveAllSettings,
+            icon: const Icon(Icons.save, color: Colors.blueAccent),
+            label: const Text(
+              'SAVE',
+              style: TextStyle(
+                color: Colors.blueAccent,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
@@ -37,41 +79,69 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _buildSettingCard(
             title: 'Auto-Follow Location',
             subtitle: 'Keep map centered on your location',
-            value: _autoFollowLocation,
-            onChanged: (value) => setState(() => _autoFollowLocation = value),
+            value: _autoFollow,
+            onChanged: (value) {
+              setState(() => _autoFollow = value);
+            },
           ),
           const SizedBox(height: 12),
           _buildSettingCard(
             title: 'Show Station Markers',
             subtitle: 'Display railway stations on map',
-            value: _showStationMarkers,
-            onChanged: (value) => setState(() => _showStationMarkers = value),
+            value: _showStations,
+            onChanged: (value) {
+              setState(() => _showStations = value);
+            },
           ),
           const SizedBox(height: 12),
           _buildSettingCard(
             title: 'Show Railway Lines',
             subtitle: 'Display railway track lines',
-            value: _showRailwayLines,
-            onChanged: (value) => setState(() => _showRailwayLines = value),
+            value: _showLines,
+            onChanged: (value) {
+              setState(() => _showLines = value);
+            },
           ),
           const SizedBox(height: 24),
           _buildSectionHeader('DISPLAY'),
           _buildSliderCard(
             title: 'Default Map Zoom',
-            subtitle: 'Initial zoom level: ${_mapZoomLevel.toStringAsFixed(1)}',
-            value: _mapZoomLevel,
+            subtitle: 'Initial zoom level: ${_zoomLevel.toStringAsFixed(1)}',
+            value: _zoomLevel,
             min: 10.0,
             max: 18.0,
-            onChanged: (value) => setState(() => _mapZoomLevel = value),
+            onChanged: (value) {
+              setState(() => _zoomLevel = value);
+            },
           ),
-          const SizedBox(height: 24),
-          _buildSectionHeader('ABOUT'),
-          _buildInfoCard(title: 'App Version', value: '1.0.0'),
           const SizedBox(height: 12),
           _buildInfoCard(title: 'Total Stations', value: '81'),
           const SizedBox(height: 12),
           _buildInfoCard(title: 'Railway Lines', value: '9'),
+          const SizedBox(height: 24),
+          _buildSectionHeader('DEBUGGING'),
+          ElevatedButton.icon(
+            onPressed: () {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(const SnackBar(content: Text('Reloading Ads...')));
+              AdService().loadInterstitialAd();
+            },
+            icon: const Icon(Icons.refresh),
+            label: const Text('Reload Ads'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF1E1E1E),
+              foregroundColor: Colors.blueAccent,
+            ),
+          ),
+          const SizedBox(height: 80), // Space for FAB
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _saveAllSettings,
+        label: const Text('SAVE SETTINGS'),
+        icon: const Icon(Icons.save),
+        backgroundColor: Colors.blueAccent,
       ),
     );
   }
@@ -133,7 +203,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: Colors.blueAccent,
+            activeThumbColor: Colors.blueAccent,
           ),
         ],
       ),

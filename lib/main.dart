@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'main_navigation.dart';
+import 'screens/onboarding_screen.dart';
+import 'services/ad_service.dart';
+import 'services/settings_service.dart';
+import 'services/notification_service.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SettingsService().initialize();
+  await AdService().initialize();
+  await NotificationService().initialize();
   runApp(const TrainMonitorApp());
 }
 
@@ -20,7 +27,9 @@ class TrainMonitorApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'Inter',
       ),
-      home: const MainNavigation(),
+      home: SettingsService().isFirstTime
+          ? const OnboardingScreen()
+          : const MainNavigation(),
     );
   }
 }

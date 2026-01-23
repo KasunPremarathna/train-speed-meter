@@ -11,6 +11,8 @@ import '../services/gps_service.dart';
 import '../services/sensor_service.dart';
 import '../services/gnss_service.dart';
 import './full_map_screen.dart';
+import '../widgets/banner_ad_widget.dart';
+import '../services/settings_service.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -23,10 +25,13 @@ class _DashboardState extends State<Dashboard> {
   final GpsService _gpsService = GpsService();
   final SensorService _sensorService = SensorService();
   final GnssService _gnssService = GnssService();
+  final SettingsService _settings = SettingsService();
 
   Position? _currentPosition;
   double _speed = 0.0;
+  double _smoothedSpeed = 0.0; // For exponential moving average
   double _accuracy = 0.0;
+  static const double _speedSmoothingFactor = 0.3; // Lower = smoother
   int _satsInView = 0;
   int _satsUsed = 0;
   List<Station> _stations = [];
@@ -37,7 +42,8 @@ class _DashboardState extends State<Dashboard> {
   final List<FlSpot> _vibrationData = [];
   double _vibrationMagnitude = 0.0;
   int _timerCount = 0;
-  bool _autoCenter = true;
+  late bool _autoCenter;
+  bool? _lastAutoFollowSetting;
 
   StreamSubscription? _posSub;
   StreamSubscription? _vibSub;
@@ -53,6 +59,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
+    _autoCenter = _settings.autoFollowLocation;
     _startTime = DateTime.now();
     _loadStations();
     _initServices();
@@ -80,12 +87,16 @@ class _DashboardState extends State<Dashboard> {
         double rawSpeed = pos.speed * 3.6;
 
         // Apply speed threshold to filter GPS drift
-        // If speed is below 0.5 km/h or accuracy is poor (>5m), treat as stationary
-        if (rawSpeed < 0.5 || pos.accuracy > 5) {
-          _speed = 0.0;
-        } else {
-          _speed = rawSpeed;
+        // If speed is below 0.2 km/h or accuracy is poor (>10m when stationary), treat as stationary
+        if (rawSpeed < 0.2 || (rawSpeed < 1.0 && pos.accuracy > 10)) {
+          rawSpeed = 0.0;
         }
+
+        // Apply exponential moving average for smooth speed transitions
+        _smoothedSpeed =
+            (_speedSmoothingFactor * rawSpeed) +
+            ((1 - _speedSmoothingFactor) * _smoothedSpeed);
+        _speed = _smoothedSpeed;
 
         if (_speed > _maxSpeed) _maxSpeed = _speed;
         _accuracy = pos.accuracy;
@@ -121,23 +132,24 @@ class _DashboardState extends State<Dashboard> {
   void _detectStations(Position pos) {
     if (_stations.isEmpty) return;
 
-    Station? nearest;
-    double minDistance = double.infinity;
-
-    for (var station in _stations) {
+    // Calculate distances for all stations based on GPS position
+    List<MapEntry<Station, double>> stationsWithDistance = _stations.map((s) {
       double d = Geolocator.distanceBetween(
         pos.latitude,
         pos.longitude,
-        station.lat,
-        station.lng,
+        s.lat,
+        s.lng,
       );
-      if (d < minDistance) {
-        minDistance = d;
-        nearest = station;
-      }
-    }
+      return MapEntry(s, d);
+    }).toList();
 
-    int nearestIndex = _stations.indexOf(nearest!);
+    // Sort by distance - nearest first
+    stationsWithDistance.sort((a, b) => a.value.compareTo(b.value));
+
+    // Always use the nearest station by GPS distance
+    Station nearest = stationsWithDistance.first.key;
+
+    int nearestIndex = _stations.indexOf(nearest);
     Station? next;
     if (nearestIndex < _stations.length - 1) {
       next = _stations[nearestIndex + 1];
@@ -185,6 +197,11 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    // Sync auto-center with settings ONLY if the setting has changed
+    if (_lastAutoFollowSetting != _settings.autoFollowLocation) {
+      _autoCenter = _settings.autoFollowLocation;
+      _lastAutoFollowSetting = _settings.autoFollowLocation;
+    }
     return Scaffold(
       backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
@@ -242,6 +259,9 @@ class _DashboardState extends State<Dashboard> {
                 _buildStationPanel(),
                 const SizedBox(height: 12),
                 SizedBox(height: 400, child: _buildMap()),
+                const SizedBox(height: 16),
+                const Center(child: BannerAdWidget()),
+                const SizedBox(height: 16),
               ],
             ),
           ),
@@ -500,6 +520,11 @@ class _DashboardState extends State<Dashboard> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    if (_nearestStation != null)
+                      Text(
+                        '[${_nearestStation!.code}] ${_nearestStation!.type} • ${_nearestStation!.line}',
+                        style: const TextStyle(color: Colors.grey, fontSize: 9),
+                      ),
                   ],
                 ),
               ),
@@ -529,6 +554,11 @@ class _DashboardState extends State<Dashboard> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    if (_nextStation != null)
+                      Text(
+                        '[${_nextStation!.code}] ${_nextStation!.type} • ${_nextStation!.line}',
+                        style: const TextStyle(color: Colors.grey, fontSize: 9),
+                      ),
                   ],
                 ),
               ),
@@ -588,19 +618,20 @@ class _DashboardState extends State<Dashboard> {
               children: [
                 TileLayer(
                   urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.example.sl_train_monitor',
+                  userAgentPackageName: 'com.kasunpremarathna.sl_train_monitor',
                 ),
-                PolylineLayer(
-                  polylines: [
-                    Polyline(
-                      points: _stations
-                          .map((s) => LatLng(s.lat, s.lng))
-                          .toList(),
-                      color: Colors.blueAccent,
-                      strokeWidth: 4,
-                    ),
-                  ],
-                ),
+                if (_settings.showRailwayLines)
+                  PolylineLayer(
+                    polylines: [
+                      Polyline(
+                        points: _stations
+                            .map((s) => LatLng(s.lat, s.lng))
+                            .toList(),
+                        color: Colors.blueAccent,
+                        strokeWidth: 4,
+                      ),
+                    ],
+                  ),
                 MarkerLayer(
                   markers: [
                     if (_currentPosition != null)
@@ -631,19 +662,20 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ),
                       ),
-                    ..._stations.map(
-                      (s) => Marker(
-                        point: LatLng(s.lat, s.lng),
-                        width: 8,
-                        height: 8,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: Colors.red,
-                            shape: BoxShape.circle,
+                    if (_settings.showStationMarkers)
+                      ..._stations.map(
+                        (s) => Marker(
+                          point: LatLng(s.lat, s.lng),
+                          width: 8,
+                          height: 8,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
                           ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               ],

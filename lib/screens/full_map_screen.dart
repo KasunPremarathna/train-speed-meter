@@ -7,6 +7,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '../models/station.dart';
 import '../services/gps_service.dart';
+import '../services/ad_service.dart';
+import '../services/settings_service.dart';
 
 class FullMapScreen extends StatefulWidget {
   const FullMapScreen({super.key});
@@ -18,15 +20,19 @@ class FullMapScreen extends StatefulWidget {
 class _FullMapScreenState extends State<FullMapScreen> {
   final GpsService _gpsService = GpsService();
   final MapController _mapController = MapController();
+  final SettingsService _settings = SettingsService();
 
   Position? _currentPosition;
   List<Station> _stations = [];
-  bool _autoCenter = true;
+  late bool _autoCenter;
+  bool? _lastAutoFollowSetting;
   StreamSubscription? _posSub;
 
   @override
   void initState() {
     super.initState();
+    _autoCenter = _settings.autoFollowLocation;
+    AdService().showInterstitialAd();
     _loadStations();
     _initGPS();
   }
@@ -66,6 +72,11 @@ class _FullMapScreenState extends State<FullMapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Sync auto-center with settings ONLY if the setting has changed
+    if (_lastAutoFollowSetting != _settings.autoFollowLocation) {
+      _autoCenter = _settings.autoFollowLocation;
+      _lastAutoFollowSetting = _settings.autoFollowLocation;
+    }
     LatLng center = _currentPosition != null
         ? LatLng(_currentPosition!.latitude, _currentPosition!.longitude)
         : const LatLng(6.9344, 79.8501);
@@ -105,17 +116,20 @@ class _FullMapScreenState extends State<FullMapScreen> {
             children: [
               TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.example.sl_train_monitor',
+                userAgentPackageName: 'com.kasunpremarathna.sl_train_monitor',
               ),
-              PolylineLayer(
-                polylines: [
-                  Polyline(
-                    points: _stations.map((s) => LatLng(s.lat, s.lng)).toList(),
-                    color: Colors.blueAccent,
-                    strokeWidth: 4,
-                  ),
-                ],
-              ),
+              if (_settings.showRailwayLines)
+                PolylineLayer(
+                  polylines: [
+                    Polyline(
+                      points: _stations
+                          .map((s) => LatLng(s.lat, s.lng))
+                          .toList(),
+                      color: Colors.blueAccent,
+                      strokeWidth: 4,
+                    ),
+                  ],
+                ),
               MarkerLayer(
                 markers: [
                   if (_currentPosition != null)
@@ -146,19 +160,20 @@ class _FullMapScreenState extends State<FullMapScreen> {
                         ),
                       ),
                     ),
-                  ..._stations.map(
-                    (s) => Marker(
-                      point: LatLng(s.lat, s.lng),
-                      width: 8,
-                      height: 8,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle,
+                  if (_settings.showStationMarkers)
+                    ..._stations.map(
+                      (s) => Marker(
+                        point: LatLng(s.lat, s.lng),
+                        width: 8,
+                        height: 8,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ],

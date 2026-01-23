@@ -7,7 +7,7 @@ class GpsService {
   Stream<Position> get positionStream {
     const LocationSettings locationSettings = LocationSettings(
       accuracy: LocationAccuracy.high,
-      distanceFilter: 5,
+      distanceFilter: 0, // Update continuously for responsive speed readings
     );
     return Geolocator.getPositionStream(locationSettings: locationSettings);
   }

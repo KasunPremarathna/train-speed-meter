@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 class GnssService {
   static const MethodChannel _channel = MethodChannel(
-    'com.example.sl_train_monitor/gnss',
+    'com.kasunpremarathna.sl_train_monitor/gnss',
   );
 
   Stream<Map<String, int>> get satelliteStream async* {

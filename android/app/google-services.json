@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "739499836406",
+    "project_id": "train-speed-monitor",
+    "storage_bucket": "train-speed-monitor.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:739499836406:android:934497351019aa3f013dd7",
+        "android_client_info": {
+          "package_name": "com.kasunpremarathna.sl_train_monitor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRnsx4Ke1P8Dgpbsl3prwfnkdXFExZ-ao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

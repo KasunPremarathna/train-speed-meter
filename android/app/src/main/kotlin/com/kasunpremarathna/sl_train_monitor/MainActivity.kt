@@ -1,4 +1,4 @@
-package com.example.sl_train_monitor
+package com.kasunpremarathna.sl_train_monitor
 
 import android.location.GnssStatus
 import android.location.LocationManager
@@ -8,7 +8,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity: FlutterActivity() {
-    private val CHANNEL = "com.example.sl_train_monitor/gnss"
+    private val CHANNEL = "com.kasunpremarathna.sl_train_monitor/gnss"
     private var gnssStatus: GnssStatus? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {

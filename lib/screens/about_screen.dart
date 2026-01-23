@@ -1,8 +1,55 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../models/station.dart';
 
-class AboutScreen extends StatelessWidget {
+class AboutScreen extends StatefulWidget {
   const AboutScreen({super.key});
+
+  @override
+  State<AboutScreen> createState() => _AboutScreenState();
+}
+
+class _AboutScreenState extends State<AboutScreen> {
+  List<Station> _stations = [];
+  Map<String, List<Station>> _groupedStations = {};
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStations();
+  }
+
+  Future<void> _loadStations() async {
+    try {
+      final String response = await rootBundle.loadString(
+        'assets/data/stations.json',
+      );
+      final List<dynamic> data = json.decode(response);
+      final stations = data.map((json) => Station.fromJson(json)).toList();
+
+      // Group by line
+      final Map<String, List<Station>> grouped = {};
+      for (var s in stations) {
+        if (!grouped.containsKey(s.line)) {
+          grouped[s.line] = [];
+        }
+        grouped[s.line]!.add(s);
+      }
+
+      setState(() {
+        _stations = stations;
+        _groupedStations = grouped;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   Future<void> _launchUrl(String url) async {
     final Uri uri = Uri.parse(url);
@@ -28,155 +75,28 @@ class AboutScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          _buildHeader(),
-          const SizedBox(height: 24),
-          _buildSectionTitle('SRI LANKA RAILWAY NETWORK'),
-          const SizedBox(height: 12),
-          _buildRailwayLine(
-            'Main Line',
-            'Colombo Fort to Badulla',
-            '28 stations • 290 km',
-            'The iconic Main Line traverses through the hill country, passing tea plantations and offering breathtaking mountain views. This is one of the most scenic train journeys in the world.',
-            [
-              'Colombo Fort',
-              'Maradana',
-              'Dematagoda',
-              'Kelaniya',
-              'Wanawasala',
-              'Hunupitiya',
-              'Enderamulla',
-              'Horape',
-              'Ragama Junction',
-              'Walpola',
-              'Batuwaththa',
-              'Bulugahagoda',
-              'Ganemulla',
-              'Yagoda',
-              'Gampaha',
-              'Daraluwa',
-              'Bemmulla',
-              'Magalegoda',
-              'Heendeniya Pattiyagoda',
-              'Veyangoda',
-              'Polgahawela Junction',
-              'Ihala Kotte',
-              'Kadugannawa',
-              'Peradeniya Junction',
-              'Nanu Oya',
-              'Pattipola',
-              'Ella',
-              'Badulla',
-            ],
-          ),
-          const SizedBox(height: 12),
-          _buildRailwayLine(
-            'Coastal Line',
-            'Colombo to Beliatta',
-            '18 stations • 160 km',
-            'Running along the southwestern coast, this line offers stunning ocean views and connects major coastal cities and beach towns.',
-            [
-              'Secretariat Halt',
-              'Kompannavidiya',
-              'Kollupitiya',
-              'Bambalapitiya',
-              'Wellawatta',
-              'Angulana',
-              'Lunawa',
-              'Moratuwa',
-              'Koralawella',
-              'Egoda Uyana',
-              'Panadura',
-              'Pinwatta',
-              'Wadduwa',
-              'Kalutara North',
-              'Kalutara South',
-              'Katukurunda',
-              'Galle',
-              'Beliatta',
-            ],
-          ),
-          const SizedBox(height: 12),
-          _buildRailwayLine(
-            'Northern Line',
-            'Polgahawela to Kankesanthurai',
-            '10 stations • 400 km',
-            'Connecting the north to the rest of the country, this line passes through ancient cities and cultural landmarks.',
-            [
-              'Potuhera',
-              'Kurunegala',
-              'Wellawa',
-              'Ganewatte',
-              'Yapahuwa',
-              'Maho Junction',
-              'Anuradhapura',
-              'Medawachchiya',
-              'Jaffna',
-              'Kankesanthurai',
-            ],
-          ),
-          const SizedBox(height: 12),
-          _buildRailwayLine(
-            'Kelani Valley Line',
-            'Colombo to Avissawella',
-            '6 stations • 30 km',
-            'A suburban line serving the Colombo metropolitan area and connecting to the hill country foothills.',
-            [
-              'Baseline Road',
-              'Cotta Road',
-              'Narahenpita',
-              'Nugegoda',
-              'Homagama',
-              'Avissawella',
-            ],
-          ),
-          const SizedBox(height: 12),
-          _buildRailwayLine(
-            'Puttalam Line',
-            'Ragama to Puttalam',
-            '5 stations • 110 km',
-            'Serving the western coastal region and connecting to the airport area.',
-            ['Kandana', 'Ja-Ela', 'Katunayake', 'Negombo', 'Puttalam'],
-          ),
-          const SizedBox(height: 12),
-          _buildRailwayLine(
-            'Eastern Lines',
-            'Batticaloa & Trincomalee',
-            '4 stations',
-            'Connecting the eastern province with scenic routes through rural landscapes.',
-            ['Gal Oya Junction', 'Polonnaruwa', 'Batticaloa', 'Trincomalee'],
-          ),
-          const SizedBox(height: 12),
-          _buildRailwayLine(
-            'Mannar Line',
-            'Medawachchiya to Talaimannar Pier',
-            '3 stations • 100 km',
-            'The historic line to the northwestern tip, once connected to India via ferry.',
-            ['Madhu Road', 'Mannar', 'Talaimannar Pier'],
-          ),
-          const SizedBox(height: 12),
-          _buildRailwayLine(
-            'Matale Line',
-            'Kandy to Matale',
-            '2 stations • 27 km',
-            'A short branch line connecting Kandy to the spice-growing region of Matale.',
-            ['Kandy', 'Matale'],
-          ),
-          const SizedBox(height: 12),
-          _buildRailwayLine(
-            'Mihintale Line',
-            'Anuradhapura to Mihintale',
-            '2 stations • 12 km',
-            'A pilgrimage line connecting to the sacred Mihintale mountain.',
-            ['Mihintale Junction', 'Mihintale'],
-          ),
-          const SizedBox(height: 32),
-          _buildDeveloperInfo(),
-          const SizedBox(height: 16),
-        ],
-      ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView(
+              padding: const EdgeInsets.all(16.0),
+              children: [
+                _buildHeader(),
+                const SizedBox(height: 24),
+                _buildSectionTitle('SRI LANKA RAILWAY NETWORK'),
+                const SizedBox(height: 12),
+                ..._groupedStations.entries.map((entry) {
+                  final lineName = entry.key;
+                  final stations = entry.value;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12.0),
+                    child: _buildRailwayLine(lineName, stations),
+                  );
+                }),
+                const SizedBox(height: 32),
+                _buildDeveloperInfo(),
+                const SizedBox(height: 16),
+              ],
+            ),
     );
   }
 
@@ -210,8 +130,8 @@ class AboutScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildStatChip('81', 'Stations'),
-              _buildStatChip('9', 'Lines'),
+              _buildStatChip(_stations.length.toString(), 'Stations'),
+              _buildStatChip(_groupedStations.length.toString(), 'Lines'),
               _buildStatChip('2026', 'Updated'),
             ],
           ),
@@ -255,13 +175,11 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRailwayLine(
-    String name,
-    String route,
-    String info,
-    String description,
-    List<String> stations,
-  ) {
+  Widget _buildRailwayLine(String name, List<Station> stations) {
+    // Determine route name (first to last station)
+    String route = '${stations.first.name} to ${stations.last.name}';
+    String info = '${stations.length} stations';
+
     return ExpansionTile(
       tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       backgroundColor: const Color(0xFF1E1E1E),
@@ -296,15 +214,6 @@ class AboutScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                description,
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 13,
-                  height: 1.5,
-                ),
-              ),
-              const SizedBox(height: 16),
               const Text(
                 'STATIONS',
                 style: TextStyle(
@@ -332,7 +241,7 @@ class AboutScreen extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      station,
+                      '${station.name} (${station.code})',
                       style: const TextStyle(color: Colors.white, fontSize: 11),
                     ),
                   );
