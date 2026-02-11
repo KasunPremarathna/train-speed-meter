@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/settings_service.dart';
 import '../services/ad_service.dart';
+import '../services/notification_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -118,6 +119,56 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _buildInfoCard(title: 'Total Stations', value: '81'),
           const SizedBox(height: 12),
           _buildInfoCard(title: 'Railway Lines', value: '9'),
+          const SizedBox(height: 24),
+          _buildSectionHeader('NOTIFICATIONS'),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: const Color(0xFF1E1E1E),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Row(
+              children: [
+                const Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Push Notifications',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        'Receive real-time alerts and updates',
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    await NotificationService().requestPermission();
+                    if (mounted) setState(() {});
+                  },
+                  child: Text(
+                    NotificationService().isPermissionGranted
+                        ? 'ENABLED'
+                        : 'ENABLE',
+                    style: TextStyle(
+                      color: NotificationService().isPermissionGranted
+                          ? Colors.greenAccent
+                          : Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           const SizedBox(height: 24),
           _buildSectionHeader('DEBUGGING'),
           ElevatedButton.icon(

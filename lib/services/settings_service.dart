@@ -13,6 +13,7 @@ class SettingsService {
   static const String keyShowRailwayLines = 'showRailwayLines';
   static const String keyZoomLevel = 'mapZoomLevel';
   static const String keyIsFirstTime = 'isFirstTime';
+  static const String keyLocationConsent = 'locationConsentAccepted';
 
   // State
   bool autoFollowLocation = true;
@@ -20,6 +21,8 @@ class SettingsService {
   bool showRailwayLines = true;
   double mapZoomLevel = 13.0;
   bool isFirstTime = true;
+  bool?
+  locationConsentAccepted; // null means not yet decided, false means declined, true means accepted
 
   Future<void> initialize() async {
     await _hive.initialize();
@@ -31,6 +34,10 @@ class SettingsService {
     );
     mapZoomLevel = _hive.getSetting(keyZoomLevel, defaultValue: 13.0);
     isFirstTime = _hive.getSetting(keyIsFirstTime, defaultValue: true);
+    locationConsentAccepted = _hive.getSetting(
+      keyLocationConsent,
+      defaultValue: null,
+    );
   }
 
   Future<void> completeOnboarding() async {
@@ -56,5 +63,10 @@ class SettingsService {
   Future<void> setZoomLevel(double value) async {
     mapZoomLevel = value;
     await _hive.saveSetting(keyZoomLevel, value);
+  }
+
+  Future<void> setLocationConsent(bool value) async {
+    locationConsentAccepted = value;
+    await _hive.saveSetting(keyLocationConsent, value);
   }
 }

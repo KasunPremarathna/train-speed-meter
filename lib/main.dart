@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'main_navigation.dart';
 import 'screens/onboarding_screen.dart';
-import 'services/ad_service.dart';
+import 'screens/location_disclosure_screen.dart';
 import 'services/settings_service.dart';
 import 'services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SettingsService().initialize();
-  await AdService().initialize();
+  // await AdService().initialize(); // Temporarily disabled
   await NotificationService().initialize();
   runApp(const TrainMonitorApp());
 }
@@ -29,7 +29,9 @@ class TrainMonitorApp extends StatelessWidget {
       ),
       home: SettingsService().isFirstTime
           ? const OnboardingScreen()
-          : const MainNavigation(),
+          : (SettingsService().locationConsentAccepted == null
+                ? const LocationDisclosureScreen()
+                : const MainNavigation()),
     );
   }
 }

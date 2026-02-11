@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import '../main_navigation.dart';
+import 'location_disclosure_screen.dart';
 import '../services/settings_service.dart';
+import '../services/notification_service.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -9,9 +11,14 @@ class OnboardingScreen extends StatelessWidget {
   void _onIntroEnd(BuildContext context) async {
     await SettingsService().completeOnboarding();
     if (context.mounted) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const MainNavigation()),
-      );
+      final settings = SettingsService();
+      final nextScreen = settings.locationConsentAccepted == null
+          ? const LocationDisclosureScreen()
+          : const MainNavigation();
+
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (_) => nextScreen));
     }
   }
 
@@ -58,6 +65,27 @@ class OnboardingScreen extends StatelessWidget {
           body:
               "Your personalized map settings and preferences are saved securely on your device.",
           image: _buildImage(Icons.settings, Colors.purpleAccent),
+          decoration: pageDecoration,
+        ),
+        PageViewModel(
+          title: "Stay Updated",
+          body:
+              "Allow notifications to receive real-time updates and important alerts during your journey.",
+          image: _buildImage(Icons.notifications_active, Colors.redAccent),
+          footer: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 64),
+            child: ElevatedButton(
+              onPressed: () => NotificationService().requestPermission(),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: const Text("Allow Notifications"),
+            ),
+          ),
           decoration: pageDecoration,
         ),
       ],

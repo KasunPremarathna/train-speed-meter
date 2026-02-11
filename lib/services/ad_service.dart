@@ -9,6 +9,8 @@ class AdService {
   InterstitialAd? _interstitialAd;
   bool _isInterstitialAdLoaded = false;
 
+  static bool get isEnabled => false; // Set to true to enable ads
+
   // Test Ad Unit IDs
   static String get bannerAdUnitId {
     if (Platform.isAndroid) {
@@ -29,10 +31,11 @@ class AdService {
   }
 
   Future<void> initialize() async {
-    print('AdService: Ads are temporarily disabled.');
-    return; // Early return to stop initialization
+    if (!isEnabled) {
+      print('AdService: Ads are disabled.');
+      return;
+    }
 
-    /* Original initialization code
     print('AdService: Initializing MobileAds...');
     try {
       await MobileAds.instance.initialize();
@@ -45,7 +48,6 @@ class AdService {
     } catch (e) {
       print('AdService: Initialization error: $e');
     }
-    */
   }
 
   void loadInterstitialAd() {
@@ -86,6 +88,8 @@ class AdService {
   }
 
   void showInterstitialAd() {
+    if (!isEnabled) return;
+
     if (_isInterstitialAdLoaded && _interstitialAd != null) {
       _interstitialAd!.show();
     } else {

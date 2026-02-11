@@ -11,8 +11,8 @@ import '../services/gps_service.dart';
 import '../services/sensor_service.dart';
 import '../services/gnss_service.dart';
 import './full_map_screen.dart';
-import '../widgets/banner_ad_widget.dart';
 import '../services/settings_service.dart';
+import './settings_screen.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -76,6 +76,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void _initServices() async {
+    if (_settings.locationConsentAccepted != true) return;
     bool hasPermission = await _gpsService.handlePermission();
     if (!hasPermission) return;
 
@@ -242,6 +243,8 @@ class _DashboardState extends State<Dashboard> {
             ),
             child: Column(
               children: [
+                if (_settings.locationConsentAccepted == false)
+                  _buildNoLocationBanner(),
                 _buildTopStatsBar(),
                 const SizedBox(height: 12),
                 _buildSpeedometer(),
@@ -260,7 +263,7 @@ class _DashboardState extends State<Dashboard> {
                 const SizedBox(height: 12),
                 SizedBox(height: 400, child: _buildMap()),
                 const SizedBox(height: 16),
-                const Center(child: BannerAdWidget()),
+                // const Center(child: BannerAdWidget()), // Temporarily disabled
                 const SizedBox(height: 16),
               ],
             ),
@@ -268,6 +271,40 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
       bottomNavigationBar: null,
+    );
+  }
+
+  Widget _buildNoLocationBanner() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: Colors.amber.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.amber.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.warning_amber_rounded, color: Colors.amberAccent),
+          const SizedBox(width: 12),
+          const Expanded(
+            child: Text(
+              "Location required for live speed. Enable in Settings.",
+              style: TextStyle(color: Colors.white, fontSize: 13),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SettingsScreen()),
+              );
+            },
+            child: const Text("Settings"),
+          ),
+        ],
+      ),
     );
   }
 

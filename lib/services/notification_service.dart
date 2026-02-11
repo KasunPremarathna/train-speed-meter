@@ -6,18 +6,10 @@ class NotificationService {
   NotificationService._internal();
 
   // Replace with your OneSignal App ID
-  static const String _appId = "YOUR_ONESIGNAL_APP_ID_HERE";
+  static const String _appId = "0ccb3cb2-5358-4317-bfac-fd45b45b5248";
 
   Future<void> initialize() async {
     print('NotificationService: Initializing OneSignal...');
-
-    // Remove this check if you have a real App ID
-    if (_appId == "0ccb3cb2-5358-4317-bfac-fd45b45b5248") {
-      print(
-        'NotificationService: Skipping initialization - placeholder App ID used.',
-      );
-      return;
-    }
 
     try {
       // OneSignal initialization
@@ -32,4 +24,14 @@ class NotificationService {
       print('NotificationService: Initialization error: $e');
     }
   }
+
+  Future<void> requestPermission() async {
+    try {
+      await OneSignal.Notifications.requestPermission(true);
+    } catch (e) {
+      print('NotificationService: Error requesting permission: $e');
+    }
+  }
+
+  bool get isPermissionGranted => OneSignal.Notifications.permission;
 }
